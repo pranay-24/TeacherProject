@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TeacherProject.Models.Teacher>
+@{
+    ViewBag.Title = "list";
+}
+
+<h2>list</h2>
+<form method="GET" action="/Teacher/list">
+    <label for="name_search_string">Search Teacher by Name</label>
+    <input type="text" name="search_string" />
+
+    <input type="submit" value="Search" />
+</form>
+
+<form method="GET" action="/Teacher/listSalary">
+  
+    <label for="name_search_string">Search Teacher with Salary more than</label>
+    <input type="text" name="search_string1" />
+
+    <input type="submit" value="Search" />
+</form>
+
+@{
+    foreach (var teacher in Model)
+    {
+        <div>
+          
+                <a href="/Teacher/show/@teacher.teacherid"> @teacher.fname   @teacher.lname  @teacher.salary   @teacher.hiredate  </a>
+
+        </div>
+
+    }
+    
+}
+
+
+
