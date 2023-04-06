@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Google.Protobuf;
 using MySql.Data.MySqlClient;
 using TeacherProject.Models;
 using static Mysqlx.Expect.Open.Types.Condition.Types;
@@ -152,7 +153,60 @@ namespace TeacherProject.Controllers
             return newteacher;
         }
 
-        
+
+        [HttpPost]
+        /*[EnableCors(origins: "*", methods: "*", headers: "*")] */
+        [Route("api/TeacherData/Create")] 
+        public Teacher Create([FromBody]Teacher newteacher)
+        {
+            MySqlConnection conn = School.AccessDatabase();
+
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText = "INSERT INTO teachers(teacherfname,teacherlname,employeenumber," +
+                "hiredate,salary) VALUES (@teacherfname,@teacherlname,@employeenumber,@hiredate,@salary)";
+
+            string format = "yyyy-MM-dd";
+            DateTime dateTime2 = DateTime.ParseExact(newteacher.hiredate, format, null);
+
+            cmd.Parameters.AddWithValue("@teacherfname",newteacher.fname);
+            cmd.Parameters.AddWithValue("@teacherlname", newteacher.lname);
+            cmd.Parameters.AddWithValue("@employeenumber", newteacher.employeeno);
+            cmd.Parameters.AddWithValue("@hiredate", dateTime2);
+            cmd.Parameters.AddWithValue("@salary", newteacher.salary);
+            
+
+            cmd.ExecuteNonQuery();
+            
+            conn.Close();
+            return newteacher;
+        }
+
+
+
+        [HttpPost]
+        /*[EnableCors(origins: "*", methods: "*", headers: "*")] */
+        [Route("api/TeacherData/Delete/{id}")]
+        public void Delete(int id)
+        {
+            MySqlConnection conn = School.AccessDatabase();
+
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText = "DELETE FROM teachers WHERE teacherid = @Teacherid ";
+
+           cmd.Parameters.AddWithValue("@teacherid", id);
+            cmd.Prepare();
+           cmd.ExecuteNonQuery();
+
+            conn.Close();
+            
+        }
+
+
+
     }
-        
+
 }

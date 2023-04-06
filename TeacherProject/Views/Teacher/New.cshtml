@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+<nav>
+    <a href="/Teacher/list">Go back to teacher list</a>
+</nav>
+
+
+<form action="/Teacher/create" method="POST">
+    <div>
+        <label for="fname">First Name</label>
+        <input type="text" name="fname" />
+    </div>
+
+    <div>
+        <label for="lname">Last Name</label>
+        <input type="text" name="lname" />
+    </div>
+    <div>
+        <label for="employeeno">Employee Number</label>
+        <input type="text" name="employeeno" />
+    </div>
+
+    <div>
+        <label for="hiredate">Hire date</label>
+        <input type="text" name="hiredate" />
+    </div>
+
+    <div>
+        <label for="salary">Salary</label>
+        <input type="text" name="salary" />
+    </div>
+    
+    <input type="submit" value="Create New Employee " />
+</form>

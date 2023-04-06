@@ -1,0 +1,24 @@
+﻿@model TeacherProject.Models.Teacher
+@{
+    ViewBag.Title = "delete_confirm";
+}
+
+<h2>Delete Confirm</h2>
+<h3>Please confirm whether you want to delete the below Teacher data</h3>
+
+<div>
+    <h3>Teacher Id : @Model.teacherid</h3>
+    <h3> Employee Name : @Model.fname       @Model.lname      </h3> <br />
+    <h3>Emplyee no:  @Model.employeeno</h3><br />
+    <h3>Hire date: @Model.hiredate</h3> <br />
+    <h3>Salary:@Model.salary </h3><br />
+
+</div>
+
+<form action="/Teacher/delete/ @Model.teacherid" method="GET">
+    <input type="submit" value="Yes" />
+</form>
+
+<div>
+   <a href="/Teacher/show/@Model.teacherid"> <h3>Go back</h3> </a> 
+</div>

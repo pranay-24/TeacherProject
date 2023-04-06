@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using TeacherProject.Models;
 namespace TeacherProject.Controllers
 {
@@ -26,7 +27,7 @@ namespace TeacherProject.Controllers
         /// </example>
         //GET:  /Teacher/list/{search_string}
 
-        public ActionResult list(string search_string)
+        public ActionResult list(string search_string = null)
         {
             TeacherDataController T_Data = new TeacherDataController();
           IEnumerable<Teacher> teachers =   T_Data.ListTeachers(search_string);
@@ -79,6 +80,42 @@ namespace TeacherProject.Controllers
             return View(iteacher);
 
         }
-        
+        public ActionResult New()
+        {
+            return View();
+        }
+
+        public ActionResult create(string fname, string lname, string employeeno, string hiredate,string salary)
+        {
+            TeacherDataController T_Data = new TeacherDataController();
+            Teacher newTeacher = new Teacher();
+            
+            newTeacher.fname = fname;
+            newTeacher.lname = lname;
+            newTeacher.employeeno = employeeno;
+            newTeacher.salary = Convert.ToDouble(salary);
+            newTeacher.hiredate = hiredate; 
+
+            T_Data.Create(newTeacher);
+
+            return RedirectToAction("list");
+
+        }
+
+        public ActionResult delete(int id)
+        {
+            TeacherDataController T_data = new TeacherDataController();
+            T_data.Delete(id);
+            return RedirectToAction("list");
+        }
+
+
+        public ActionResult delete_confirm(int id)
+        {   TeacherDataController T_data = new TeacherDataController();
+            Teacher teacher = new Teacher();
+            teacher = T_data.Show(id);
+           
+            return View(teacher);
+        }
     }
 }
