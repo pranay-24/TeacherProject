@@ -7,13 +7,16 @@ namespace TeacherProject.Models
 {
     public class Teacher
     {
-        public string fname { get; set; }  
-        public string lname { get; set; }
-        public int teacherid { get; set; }
+        public string fname;
+        public string lname;
+        public int teacherid;
 
-        public string employeeno { get; set; }
-        public string hiredate { get; set; }    
-                 
-        public double salary { get; set; }
+        public string employeeno;
+        public string hiredate;
+
+        public double salary;
+
+        public Teacher() { }
     }
+
 }

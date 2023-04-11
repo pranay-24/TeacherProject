@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using TeacherProject.Models;
+
 namespace TeacherProject.Controllers
 {
     public class TeacherController : Controller
@@ -80,11 +81,36 @@ namespace TeacherProject.Controllers
             return View(iteacher);
 
         }
+
+        /// <summary>
+        /// Form to create a new entry of teacher in the list
+        /// </summary>
+        /// <param ></param>
+        /// <returns></returns>
+        /// <example>
+        /// /Teacher/new         -> Form to create a new teacher entry
+        ///</example>
+        // GET:  /Teacher/new
         public ActionResult New()
         {
             return View();
+        
         }
 
+
+        /// <summary>
+        /// Add teacher with the name, employe no., hiredate,salary
+        /// </summary>
+        /// <param name={fname,lname,employeeno,hiredate,salaray}>First name,Last name, employee no., 
+        /// hiredate, salary</param>
+        /// <returns></returns>
+        /// <example>
+        /// /Teacher/create     
+        /// 
+        ///</example>
+        // GET:  /Teacher/create/
+
+        [HttpPost]
         public ActionResult create(string fname, string lname, string employeeno, string hiredate,string salary)
         {
             TeacherDataController T_Data = new TeacherDataController();
@@ -102,12 +128,46 @@ namespace TeacherProject.Controllers
 
         }
 
+        /// <summary>
+        /// Deletes a teacher with a given id 
+        /// </summary>
+        /// <param name="id">Teacher ID</param>
+        /// <returns> Redirects to list page</returns>
+        /// <example>
+        /// /Teacher/delete/3       ->    list of teachers 
+        /// 
+        /// 
+        ///</example>
+        // GET:  /Teacher/delete/3
+
+        [HttpPost]
         public ActionResult delete(int id)
         {
             TeacherDataController T_data = new TeacherDataController();
             T_data.Delete(id);
             return RedirectToAction("list");
         }
+
+
+        public ActionResult add_ajax()
+        {
+           
+            return View();
+        }
+
+        /// <summary>
+        /// Displays the teacher with a given id 
+        /// </summary>
+        /// <param name="id">Teacher ID</param>
+        /// <returns> teacher with the given id</returns>
+        /// <example>
+        /// /Teacher/delete_confirm/3       ->    Employee Name : Lauren Smith
+        ///                                       Emplyee no: T385
+        ///                                       Hire date: 6/22/2014 12:00:00 AM
+        ///                                       Salary:74.2  
+        /// 
+        ///</example>
+        // GET:  /Teacher/delete_confirm/3
 
 
         public ActionResult delete_confirm(int id)

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Google.Protobuf;
 using MySql.Data.MySqlClient;
 using TeacherProject.Models;
 using static Mysqlx.Expect.Open.Types.Condition.Types;
+
 
 namespace TeacherProject.Controllers
 {
@@ -155,8 +158,10 @@ namespace TeacherProject.Controllers
 
 
         [HttpPost]
-        /*[EnableCors(origins: "*", methods: "*", headers: "*")] */
-        [Route("api/TeacherData/Create")] 
+        [EnableCors(origins: "*", methods: "*", headers: "*")] 
+      
+       /* [Route("api/TeacherData/Create")] */
+
         public Teacher Create([FromBody]Teacher newteacher)
         {
             MySqlConnection conn = School.AccessDatabase();
@@ -164,16 +169,19 @@ namespace TeacherProject.Controllers
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand();
 
-            cmd.CommandText = "INSERT INTO teachers(teacherfname,teacherlname,employeenumber," +
-                "hiredate,salary) VALUES (@teacherfname,@teacherlname,@employeenumber,@hiredate,@salary)";
+            /*Console.WriteLine(newteacher);*/
+            System.Diagnostics.Debug.WriteLine(newteacher.fname);
 
-            string format = "yyyy-MM-dd";
-            DateTime dateTime2 = DateTime.ParseExact(newteacher.hiredate, format, null);
+            cmd.CommandText = "INSERT INTO teachers(teacherfname,teacherlname,employeenumber" +
+               ",salary) VALUES (@teacherfname,@teacherlname,@employeenumber,@salary)";
+
+            /* string format = "yyyy-MM-dd";
+            DateTime dateTime2 = DateTime.ParseExact(newteacher.hiredate, format, null); */
 
             cmd.Parameters.AddWithValue("@teacherfname",newteacher.fname);
             cmd.Parameters.AddWithValue("@teacherlname", newteacher.lname);
             cmd.Parameters.AddWithValue("@employeenumber", newteacher.employeeno);
-            cmd.Parameters.AddWithValue("@hiredate", dateTime2);
+          /*  cmd.Parameters.AddWithValue("@hiredate", dateTime2); */
             cmd.Parameters.AddWithValue("@salary", newteacher.salary);
             
 
@@ -184,9 +192,9 @@ namespace TeacherProject.Controllers
         }
 
 
-
+        
         [HttpPost]
-        /*[EnableCors(origins: "*", methods: "*", headers: "*")] */
+        
         [Route("api/TeacherData/Delete/{id}")]
         public void Delete(int id)
         {

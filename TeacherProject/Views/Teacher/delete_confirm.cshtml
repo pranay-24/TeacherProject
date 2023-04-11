@@ -7,6 +7,10 @@
 <h3>Please confirm whether you want to delete the below Teacher data</h3>
 
 <div>
+    <a href="/Teacher/show/@Model.teacherid"> <h3>Go back</h3> </a>
+</div>
+
+<div>
     <h3>Teacher Id : @Model.teacherid</h3>
     <h3> Employee Name : @Model.fname       @Model.lname      </h3> <br />
     <h3>Emplyee no:  @Model.employeeno</h3><br />
@@ -15,10 +19,7 @@
 
 </div>
 
-<form action="/Teacher/delete/ @Model.teacherid" method="GET">
-    <input type="submit" value="Yes" />
+<form action="/Teacher/delete/@Model.teacherid" method="POST">
+    <input type="submit" value="Confirm Delete?" />
 </form>
 
-<div>
-   <a href="/Teacher/show/@Model.teacherid"> <h3>Go back</h3> </a> 
-</div>
