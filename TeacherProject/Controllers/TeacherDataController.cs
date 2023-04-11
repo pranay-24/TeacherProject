@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -63,7 +64,7 @@ namespace TeacherProject.Controllers
                 teach.fname = ResultSet["teacherfname"].ToString();
                 teach.lname = ResultSet["teacherlname"].ToString();
                 teach.employeeno = ResultSet["employeenumber"].ToString();
-                teach.hiredate = ResultSet["hiredate"].ToString();
+               teach.hiredate =ResultSet["hiredate"].ToString();
                 teach.salary = Convert.ToDouble(ResultSet["salary"]);
                
                 teachs.Add(teach);
@@ -100,7 +101,7 @@ namespace TeacherProject.Controllers
                 teach.fname = ResultSet["teacherfname"].ToString();
                 teach.lname = ResultSet["teacherlname"].ToString();
                 teach.employeeno = ResultSet["employeenumber"].ToString();
-                teach.hiredate = ResultSet["hiredate"].ToString();
+               teach.hiredate = ResultSet["hiredate"].ToString();
                 teach.salary = Convert.ToDouble(ResultSet["salary"]);
 
                 teachs.Add(teach);
@@ -149,7 +150,7 @@ namespace TeacherProject.Controllers
                 newteacher.fname = ResultSet["teacherfname"].ToString();
                 newteacher.lname = ResultSet["teacherlname"].ToString();
                 newteacher.employeeno = ResultSet["employeenumber"].ToString();
-                newteacher.hiredate = ResultSet["hiredate"].ToString();
+                newteacher.hiredate =ResultSet["hiredate"].ToString();
                newteacher.salary = Convert.ToDouble(ResultSet["salary"]);
             }
             conn.Close();
@@ -162,7 +163,7 @@ namespace TeacherProject.Controllers
       
        /* [Route("api/TeacherData/Create")] */
 
-        public Teacher Create([FromBody]Teacher newteacher)
+        public void Create([FromBody]Teacher newteacher)
         {
             MySqlConnection conn = School.AccessDatabase();
 
@@ -175,20 +176,20 @@ namespace TeacherProject.Controllers
             cmd.CommandText = "INSERT INTO teachers(teacherfname,teacherlname,employeenumber" +
                ",salary) VALUES (@teacherfname,@teacherlname,@employeenumber,@salary)";
 
-            /* string format = "yyyy-MM-dd";
-            DateTime dateTime2 = DateTime.ParseExact(newteacher.hiredate, format, null); */
+            string format = "yyyy-MM-dd ";
+            DateTime dateTime2 = DateTime.Parse(newteacher.hiredate); 
 
             cmd.Parameters.AddWithValue("@teacherfname",newteacher.fname);
             cmd.Parameters.AddWithValue("@teacherlname", newteacher.lname);
             cmd.Parameters.AddWithValue("@employeenumber", newteacher.employeeno);
-          /*  cmd.Parameters.AddWithValue("@hiredate", dateTime2); */
+           cmd.Parameters.AddWithValue("@hiredate", dateTime2); 
             cmd.Parameters.AddWithValue("@salary", newteacher.salary);
             
-
+            cmd.Prepare();
             cmd.ExecuteNonQuery();
             
             conn.Close();
-            return newteacher;
+            ;
         }
 
 
