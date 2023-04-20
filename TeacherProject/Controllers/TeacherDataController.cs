@@ -216,6 +216,36 @@ namespace TeacherProject.Controllers
 
 
 
+        public void Update(int id, [FromBody] Teacher newteacher)
+        {
+            MySqlConnection conn = School.AccessDatabase();
+
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand();
+
+            /*Console.WriteLine(newteacher);*/
+            System.Diagnostics.Debug.WriteLine(newteacher.fname);
+
+            cmd.CommandText = "UPDATE teachers set teacherfname=@teacherfname,teacherlname=@teacherlname," +
+                "employeenumber=@employeenumber,salary=@salary  where teacherid = @teacherID";
+
+            string format = "yyyy-MM-dd ";
+            DateTime dateTime2 = DateTime.Parse(newteacher.hiredate);
+
+            cmd.Parameters.AddWithValue("@teacherfname", newteacher.fname);
+            cmd.Parameters.AddWithValue("@teacherlname", newteacher.lname);
+            cmd.Parameters.AddWithValue("@employeenumber", newteacher.employeeno);
+            cmd.Parameters.AddWithValue("@hiredate", dateTime2);
+            cmd.Parameters.AddWithValue("@salary", newteacher.salary);
+            cmd.Parameters.AddWithValue("@teacherID", id);
+
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
+
+
     }
 
 }

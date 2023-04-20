@@ -177,5 +177,68 @@ namespace TeacherProject.Controllers
            
             return View(teacher);
         }
+
+
+        /// <summary>
+        /// Show teacher with a given id
+        /// </summary>
+        /// <param name="id">TeacherID</param>
+        /// <returns>Teacher with that specific ID</returns>
+        /// <example>
+        /// /Teacher/update/4       -> Employee Name : Lauren Smith
+        ///                         Emplyee no: T385
+        ///                         Hire date: 6/22/2014 12:00:00 AM
+        ///                         Salary:74.2
+        ///</example>
+        ///
+        //GET://Teacher/update/{id}
+        [HttpGet]
+        public ActionResult update(int id)
+        {
+            TeacherDataController T_Data = new TeacherDataController();
+            Teacher selectedTeacher = T_Data.Show(id);
+          
+
+            return View(selectedTeacher);
+        }
+
+        /// <summary>
+        /// Add teacher with the name, employe no., hiredate,salary
+        /// </summary>
+        /// <param name={fname,lname,employeeno,hiredate,salaray}>First name,Last name, employee no., 
+        /// hiredate, salary</param>
+        /// <returns></returns>
+        /// <example>
+        /// /Teacher/update/id    
+        /// Form Data / POST DATA
+        /// {
+        /// "fname":"Pranay",
+        /// "lname":"Mangal",
+        /// 
+        /// "employeeno":"m100",
+        /// "hiredate":"2023/02/12",
+        /// "salary":"98.5"
+        /// }
+        ///</example>
+        ///
+        //POST://Teacher/update/{id}
+        [HttpPost]
+        public ActionResult update(int id, string fname, string lname, string employeeno, string hiredate, string salary)
+        {
+            TeacherDataController T_Data = new TeacherDataController();
+            Teacher newTeacher = new Teacher();
+
+            newTeacher.fname = fname;
+            newTeacher.lname = lname;
+            newTeacher.employeeno = employeeno;
+            newTeacher.salary = Convert.ToDouble(salary);
+            newTeacher.hiredate = hiredate;
+
+            T_Data.Update(id,newTeacher);
+
+
+            return RedirectToAction("show/"+id);
+        }
+
     }
 }
